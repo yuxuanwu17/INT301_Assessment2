@@ -19,16 +19,33 @@ for i = 1:length(imgDataDir)
     
     for j =1:length(imgDir)                 % 遍历所有图片
         img = imread([imgDataPath imgDataDir(i).name '/' imgDir(j).name]);
-        imwrite(img, [savepath,imgDataDir(i).name,num2str(j),'.jpeg'])
-%         img_processed = double(img);
-%         img_normalized = img_processed/255;
+        img_processed = double(img);
+        img_normalized = img_processed/255;
 %         imwrite(img_normalized, [savepath,imgDataDir(i).name,num2str(j),'.jpeg'])
     end
 end
 
 %% Read the new processed file and output the data and target
 imgDataPath_processed = '/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed_data/';
-[data, target] = getimdata(imgDataPath_processed);
+% [data, target] = getimdata(imgDataPath_processed)
+
+%%
+files = dir([imgDataPath_processed '*.jpeg'])
+
+
+%%
+store = cell(1,24)
+tst_zero = zeros(1,24)
+
+%%
+for i = 1:24
+    copy = tst_zero
+    tmp = copy(1,
+    cell(1,i) = tmp(1,i)
+end 
+
+%%
+files(2).name(1)
 
 %%
 
