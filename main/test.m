@@ -4,13 +4,25 @@ fig1 = imread('/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed_data/A1.j
 fig2 = imread('/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed_data/A2.jpeg')
 data = [fig1(:), fig2(:)]
 %%
-imds = imageDatastore(imgDataPath_processed);
-imds.Labels = 
+% imds = imageDatastore(imgDataPath_processed,);
 %%
-repeat(1,)
+F = '/Users/yuxuan/Desktop/INT301_Assessment2/ass2data'
+imds = imageDatastore(F,'IncludeSubfolders',true,'LabelSource','foldernames')
 
 %%
-numTrainFiles = 1721;
+figure;                              %打开figure界面
+perm = randperm(1000,20);           %从1-1000中任取20个数
+for i = 1:20
+    subplot(4,5,i);                  %将figure界面分割为4X5个小格，并选中第i个小格
+    imshow(imds.Files{perm(i)});     %在第i个小格上显示标号为i的图片
+end
+
+%%
+labelCount = countEachLabel(imds);   %统计imds中各标签值的图片数
+labelCount
+
+%%
+numTrainFiles = 80;
 [imdsTrain, imdsTest] = splitEachLabel(imds, numTrainFiles,'randomize');
 %% split data into 8:2
 
