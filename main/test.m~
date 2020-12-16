@@ -4,13 +4,8 @@ fig1 = imread('/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed_data/A1.j
 fig2 = imread('/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed_data/A2.jpeg')
 data = [fig1(:), fig2(:)]
 %%
-imds = imageDatastore(imgDataPath_processed);
-imds.Labels = 
-%%
-repeat(1,)
-
-%%
-numTrainFiles = 1721;
+imds = imageDatastore(imgDataPath_processed)
+numTrainFiles = 1721
 [imdsTrain, imdsTest] = splitEachLabel(imds, numTrainFiles,'randomize');
 %% split data into 8:2
 

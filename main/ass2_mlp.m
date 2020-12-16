@@ -3,28 +3,8 @@ clear;
 close all;
 clc;
 
-%% Read and normalized the input image and rewrite to the new one file 
-% imgDataPath = '/Users/yuxuan/Desktop/INT301_Assessment2/ass2data/';
-% imgDataDir  = dir(imgDataPath);             % 遍历所有文件
-% savepath =  '/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed_data/'
-% for i = 1:length(imgDataDir)
-%     if(isequal(imgDataDir(i).name,'.')||... % 去除系统自带的两个隐文件夹
-%        isequal(imgDataDir(i).name,'..')||...
-%        isequal(imgDataDir(i).name,'.DS_Store')||...
-%        ~imgDataDir(i).isdir)                % 去除遍历中不是文件夹的
-%            continue;
-%     end
-%     imgDir = dir([imgDataPath imgDataDir(i).name '/*.jpeg']);
-% 
-%     
-%     for j =1:length(imgDir)                 % 遍历所有图片
-%         img = imread([imgDataPath imgDataDir(i).name '/' imgDir(j).name]);
-%         imwrite(img, [savepath,imgDataDir(i).name,num2str(j),'.jpeg'])
-% %         img_processed = double(img);
-% %         img_normalized = img_processed/255;
-% %         imwrite(img_normalized, [savepath,imgDataDir(i).name,num2str(j),'.jpeg'])
-%     end
-% end
+%% Reformat the figure format (uncomment it if you run it first time)
+% figure_preprocessing
 
 %% Read the new processed file and output the data and target
 imgDataPath_processed = '/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed_data/';
@@ -53,15 +33,8 @@ target_tr = y_train';
 data_ts = X_test';
 target_ts = y_test';
 
-%% train NN
+%% The MLP model train NN
 
-% seperate the value 
-% neurons = [8,16,32];
-% lr_rate = 0.1;
-% mc_rate = 0.9;
-% lr_rate = [0.1,0.4,0.7];
-% mc_rate = [0.6,0.75,0.9];
-% perf_store = [];
 neurons = 32;
 lr_rate = 0.1;
 mc_rate = 0.9;
@@ -91,3 +64,10 @@ y_test_vec = vec2ind(y_test');
 %% Confusion mareix 
 C = confusionmat(y_predict_vec,y_test_vec);
 confusionchart(C)
+
+
+
+
+
+
+
