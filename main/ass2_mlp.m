@@ -33,6 +33,7 @@ target_tr = y_train';
 data_ts = X_test';
 target_ts = y_test';
 
+
 %% The MLP model train NN
 
 neurons = 32;
