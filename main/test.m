@@ -21,9 +21,36 @@ labelCount
 numTrainFiles = 80;
 [imdsTrain, imdsTest] = splitEachLabel(imds, numTrainFiles,'randomize');
 
+%%
+layers = [
+imageInputLayer([48 24 1])           
+
+convolution2dLayer(3,8,'Padding',1)   
+batchNormalizationLayer
+reluLayer
+maxPooling2dLayer(2,'Stride',2)
+
+convolution2dLayer(3,16,'Padding',1)  
+batchNormalizationLayer
+reluLayer
+maxPooling2dLayer(2,'Stride',2)
+
+convolution2dLayer(3,32,'Padding',1)  
+batchNormalizationLayer
+reluLayer
+
+fullyConnectedLayer(24)               
+softmaxLayer
+classificationLayer];
 
 %%
-% net = trainNetwork(imdsTrain, layers, options)
+options = trainingOptions('sgdm','MaxEpochs',4,'ValidationData',imdsTest,'ValidationFrequency',30,'Verbose',false,'Plots','training-progress');
+%%
+
+net = trainNetwork(imdsTrain, layers, options)
+
+
+
 
 %%
 data = []
@@ -82,11 +109,10 @@ layers = [
 %%
 options = trainingOptions('sgdm', ...
     'InitialLearnRate',0.01, ...
-    'MaxEpochs',4, ...
-    'Shuffle','every-epoch', ...
+    'MaxEpochs',10, ...
     'ValidationData',{X_test,y_test}, ...
     'ValidationFrequency',30, ...
-    'Verbose',false, ...
+    'Verbose',true, ...
     'Plots','training-progress');
 
 
