@@ -4,7 +4,7 @@ close all;
 
 %% Read the data (This time we used the imds format to handle the figure)
 F = '/Users/yuxuan/Desktop/INT301_Assessment2/ass2data'
-imds = imageDatastore(F,'IncludeSubfolders',true,'LabelSource','foldernames')
+imds = imageDatastore(F,'IncludeSubfolders',true,'LabelSource','foldernames');
 %% Have a view of the inside component
 % figure;                              
 % perm = randperm(1000,20);           

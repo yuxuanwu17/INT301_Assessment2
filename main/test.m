@@ -1,137 +1,78 @@
-%%
-clc;
-clear;
-
-%% 
-F = '/Users/yuxuan/Desktop/INT301_Assessment2/ass2data'
-imds = imageDatastore(F,'IncludeSubfolders',true,'LabelSource','foldernames')
-%%
-% figure;                              %打开figure界面
-% perm = randperm(1000,20);           %从1-1000中任取20个数
-% for i = 1:20
-%     subplot(4,5,i);                  %将figure界面分割为4X5个小格，并选中第i个小格
-%     imshow(imds.Files{perm(i)});     %在第i个小格上显示标号为i的图片
-% end
-
-%%
-labelCount = countEachLabel(imds);   %统计imds中各标签值的图片数
-labelCount
-
-%%
-numTrainFiles = 80;
-[imdsTrain, imdsTest] = splitEachLabel(imds, numTrainFiles,'randomize');
-
-%%
-layers = [
-imageInputLayer([48 24 1])           
-
-convolution2dLayer(3,8,'Padding',1)   
-batchNormalizationLayer
-reluLayer
-maxPooling2dLayer(2,'Stride',2)
-
-convolution2dLayer(3,16,'Padding',1)  
-batchNormalizationLayer
-reluLayer
-maxPooling2dLayer(2,'Stride',2)
-
-convolution2dLayer(3,32,'Padding',1)  
-batchNormalizationLayer
-reluLayer
-
-fullyConnectedLayer(24)               
-softmaxLayer
-classificationLayer];
-
-%%
-options = trainingOptions('sgdm','MaxEpochs',4,'ValidationData',imdsTest,'ValidationFrequency',30,'Verbose',false,'Plots','training-progress');
-%%
-
-net = trainNetwork(imdsTrain, layers, options)
-
-
-
-
-%%
-data = []
-files = imdsTrain.Files;
-x = 0
-for file = files'
-    im = imread(file{1});
-    data = [data im];
-end 
-%%
-X_train = reshape(data,48,24,1920);
-X_train = double(X_train);
-y_train = imdsTrain.Labels;
-y_train = double(y_train);
-
-%%
-% imshow(X_train)
-%%
-data = []
-files = imdsTest.Files;
-x = 0
-for file = files'
-    im = imread(file{1});
-    data = [data im];
-end 
-%%
-X_test = reshape(data,48,24,480);
-X_test = double(X_test);
-y_test = imdsTest.Labels;
-y_test = double(y_test);
-
-
-%%
-layers = [
-    imageInputLayer([48 24])
-
-    convolution2dLayer(3,8,'Padding','same')
-    reluLayer
-    
-    averagePooling2dLayer(2,'Stride',2)
-
-    convolution2dLayer(3,16,'Padding','same')
-    reluLayer
-    
-    averagePooling2dLayer(2,'Stride',2)
-  
-    convolution2dLayer(3,32,'Padding','same')
-    reluLayer
-    
-    convolution2dLayer(3,32,'Padding','same')
-    reluLayer
-    
-    dropoutLayer(0.2)
-    fullyConnectedLayer(1)
-    regressionLayer];
-%%
-options = trainingOptions('sgdm', ...
-    'InitialLearnRate',0.01, ...
-    'MaxEpochs',10, ...
-    'ValidationData',{X_test,y_test}, ...
-    'ValidationFrequency',30, ...
-    'Verbose',true, ...
-    'Plots','training-progress');
-
-
-%%
-
-
-net = trainNetwork(X_train, y_train,layers, options)
-
-% %%
-%     im = imread([path file]);
-%     data = [data im(:)];
-% 
-% %%
-% files = imdsTrain.Files;
-% for file = files
-%     im = imread([file.name]);
-%     im = double(im);
-%     im = im/255;
-%     data = [data im(:)];
-% end
-% 
-% %%
+%// This is a RBF network trained by BP algorithm  
+%// Author : zouxy  
+%// Date   : 2013-10-28  
+%// HomePage : http://blog.csdn.net/zouxy09  
+%// Email  : zouxy09@qq.com  
+ 
+close all; clear; clc;
+ 
+%%% ************************************************
+%%% ************ step 0: load data ****************
+display('step 0: load data...');
+% train_x = [1 2 3 4 5 6 7 8]; % each sample arranged as a column of train_x
+% train_y = 2 * train_x;
+train_x = rand(5, 10);
+train_y = 2 * train_x;
+test_x = train_x;
+test_y = train_y;
+ 
+%% from matlab
+% rbf = newrb(train_x, train_y);
+% output = rbf(test_x);
+ 
+ 
+%%% ************************************************
+%%% ******** step 1: initialize parameters ******** 
+display('step 1: initialize parameters...');
+numSamples = size(train_x, 2);
+rbf.inputSize = size(train_x, 1);
+rbf.hiddenSize = numSamples; 		% num of Radial Basis function
+rbf.outputSize = size(train_y, 1);
+rbf.alpha = 0.1;  % learning rate (should not be large!)
+ 
+%% centre of RBF
+for i = 1 : rbf.hiddenSize
+	% randomly pick up some samples to initialize centres of RBF
+	index = randi([1, numSamples]); 
+	rbf.center(:, i) =  train_x(:, index);
+end
+ 
+%% delta of RBF
+rbf.delta = rand(1, rbf.hiddenSize);
+ 
+%% weight of RBF
+r = 1.0; % random number between [-r, r]
+rbf.weight = rand(rbf.outputSize, rbf.hiddenSize) * 2 * r - r;
+ 
+ 
+%%% ************************************************
+%%% ************ step 2: start training ************
+display('step 2: start training...');
+maxIter = 400;
+preCost = 0;
+for i = 1 : maxIter
+	fprintf(1, 'Iteration %d ,', i);
+	rbf = trainRBF(rbf, train_x, train_y);
+	fprintf(1, 'the cost is %d \n', rbf.cost);
+	
+	curCost = rbf.cost;
+	if abs(curCost - preCost) < 1e-8
+		disp('Reached iteration termination condition and Termination now!');
+		break;
+	end
+	preCost = curCost;
+end
+ 
+ 
+%%% ************************************************
+%%% ************ step 3: start testing ************ 
+display('step 3: start testing...');
+Green = zeros(rbf.hiddenSize, 1);
+for i = 1 : size(test_x, 2)
+	for j = 1 : rbf.hiddenSize
+		Green(j, 1) = green(test_x(:, i), rbf.center(:, j), rbf.delta(j));
+	end	
+	output(:, i) = rbf.weight * Green;
+end
+disp(test_y);
+disp(output);
