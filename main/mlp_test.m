@@ -13,19 +13,28 @@ imgDataPath_processed = '/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed
 %%
 X_trans = transpose(X);
 y_trans = transpose(y);
+
+%%
+y_ind = vec2ind(y)'
+[train_idx, test_idx] = crossvalind('HoldOut', y_ind, 0.2);
+X_train = X_trans(train_idx,:);
+X_test = X_trans(test_idx,:);
+y_train = y_trans(train_idx,:);
+y_test = y_trans(test_idx,:);
+
 %% split data into 8:2
-
-rng(1)
-[ndata, D] = size(X_trans);        %ndata，D: feature dimension
-R = randperm(ndata);         %1到n randomize the number as index
-num_test = floor(ndata*0.2);
-X_test = X_trans(R(1:num_test),:);  
-R(1:num_test) = [];
-X_train = X_trans(R,:);          
-num_training = size(X_train,1);
-
-y_test = y_trans(R(1:num_test),:);
-y_train = y_trans(R,:);
+% 
+% rng(1)
+% [ndata, D] = size(X_trans);        %ndata，D: feature dimension
+% R = randperm(ndata);         %1到n randomize the number as index
+% num_test = floor(ndata*0.2);
+% X_test = X_trans(R(1:num_test),:);  
+% R(1:num_test) = [];
+% X_train = X_trans(R,:);          
+% num_training = size(X_train,1);
+% 
+% y_test = y_trans(R(1:num_test),:);
+% y_train = y_trans(R,:);
 
 %% Assign the new value
 data_tr = X_train';

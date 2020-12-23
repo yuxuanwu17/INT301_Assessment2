@@ -39,13 +39,30 @@ dis_square = sum((centers-centers(:,i)).^2); % calculate variance for each cente
     curr = max(dis_square); 
     var_square(i) = curr/(2*n_cluster);
 end 
+
 %%
 X_train = X_train';
-for i=1:1920  % calculate the k weight matrix
+X_train_size = size(X_train);
+X_train_num = X_train_size(2);
+for i=1:X_train_num  % calculate the k weight matrix
     for j=1:n_cluster 
         dis1 = sqrt(sum((X_train(:,i)-centers(:,j)).^2));
-        K(i,j)=exp(-dis1^2/(2*var_square(j)^2));  
+        K(i,j)=exp(-dis1^2/(2*var_square(j)));  
     end 
+end 
+
+%% update the weights
+weights=pinv(K'*K)*K'*y_train;
+
+%% Return the y value
+for i=1:1920 % calculate the simulated training output
+    ww1=0; 
+    for j=1:n_cluster 
+        dis1 = sqrt(sum((X_train(:,i)-centers(:,j)).^2));
+        curr2=weights(j)*exp(-dis1^2/(2*var_square(j))); 
+        ww1=ww1 + curr2; 
+    end 
+    y_train_return(i) = ww1; 
 end 
 
 %% Calculate the Gaussian basis function
@@ -64,7 +81,7 @@ end
 %%
 % K = rbf_function;
 % psedu = inv(corr);
-weights=pinv(K'*K)*K'*y_train;
+% weights=pinv(K'*K)*K'*y_train;
 %%
 % tforT = y_train;
 % K = rbf_function;
