@@ -12,15 +12,15 @@ imgDataPath_processed = '/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed
 
 %% transpose the X and y for easy manipulation
 X = transpose(X);
-y = transpose(y);
+% y = transpose(y);
 
 
 %% Seperate the data format in 8 : 2
-[train_idx, test_idx] = crossvalind('HoldOut', y, 0.2);
+[train_idx, test_idx] = crossvalind('HoldOut', y', 0.2);
 X_train = X(train_idx,:);
 X_test = X(test_idx,:);
-y_train = ind2vec(y(train_idx,:)')';
-y_test = ind2vec(y(test_idx,:)')';
+% y_train = ind2vec(y(train_idx,:)')';
+% y_test = ind2vec(y(test_idx,:)')';
 
 %% Use parallel computing
 stream = RandStream('mlfg6331_64');  % Random number stream
@@ -53,10 +53,13 @@ for i=1:X_train_num  % calculate the k weight matrix
 end 
 
 %% update the weights
-weights=pinv(K'*K)*K'*y_train;
+y=transpose(y);
+y_train = y(train_idx,:);
+y_test = y(test_idx,:);
+weights=inv(K'*K)*K'*y_train;
 
 %% Return the y value
-for i=1:1920 % calculate the simulated training output
+for i=1:X_train_num % calculate the simulated training output
     ww1=0; 
     for j=1:n_cluster 
         dist = sqrt(sum((X_train(:,i)-centers(:,j)).^2));
@@ -71,11 +74,11 @@ newtr = int64(y_train_return);
 X_test = X_test';
 X_test_size = size(X_test);
 X_test_num = X_test_size(2);
-for i=1:480 % calculate simulated testing output
+for i=1:X_test_num % calculate simulated testing output
     ww2=0; 
     for j=1:n_cluster 
         curr11=sqrt(sum((X_test(:,i)-centers(:,j)).^2));
-        curr22=weights(j)*exp(-curr11^2/(2*var_square(j))); 
+        curr22=weights(j)*exp(-curr11^2/(2*var_square(j)^2)); 
         ww2=ww2 + curr22; 
     end 
     y_test_return(i) = ww2; 
@@ -83,8 +86,8 @@ end
 newtt = int64(y_test_return);
 
 %%
-training_acc = rate(newtr,vec2ind(y_train'))
-testing_acc = rate(newtt, vec2ind(y_test'))
+training_acc = rate(newtr,y_train')
+testing_acc = rate(newtt, y_test')
 %% Calculate the Gaussian basis function
 % n = 0;
 % X_train_size = size(X_train);

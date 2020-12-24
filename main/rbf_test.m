@@ -40,7 +40,7 @@ end
 
 %%
 tforT = T(:,trainInd);
-weights=inv(K'*K)*K'*tforT'; % calculate the weight by matrix transformation
+weights=pinv(K'*K)*K'*tforT'; % calculate the weight by matrix transformation
 
 %%
 for i=1:1920 % calculate the simulated training output
