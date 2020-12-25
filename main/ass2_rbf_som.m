@@ -19,7 +19,7 @@ X_train = X(train_idx,:);
 X_test = X(test_idx,:);
 %% Define the SOM network
 
-dimensions = [18,20]; % creat a 18X20 neuron matrix
+dimensions = [18,20]; % creat a 18X20 neuron matrix %% sqrt(sqrt(1152)*5)=13
 % net = selforgmap(dimensions);
 coverSteps = 10; 
 initNeighbor = 80; 
