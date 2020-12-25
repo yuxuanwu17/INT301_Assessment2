@@ -10,7 +10,7 @@ clc;
 imgDataPath_processed = '/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed_data/';
 [A, T] = getimdata2(imgDataPath_processed);
 
-for l=1:5
+% for l=1:5
 [trainInd, testInd] = crossvalind('HoldOut', T, 0.2);% randomly divide data into two parts
 
 Training = A(:,trainInd); 
@@ -24,11 +24,11 @@ centers = train6';
 % how to do RBF using k means 
 
 for i=1:cn
-
     dis = sqrt(sum((centers-centers(:,i)).^2)); % calculate variance for each center
     curr=max(dis); 
     delta(i) = curr;
 end
+
 %%
 
 for i=1:1920  % calculate the k weight matrix
@@ -71,14 +71,14 @@ newtt = int64(y_test);
 %%
 training_acc = rate(newtr, T(:,trainInd))
 testing_acc = rate(newtt, T(:,testInd))
-%
-testing_acc(l) = rate(newtt, T(:,testInd));
-
-  if l~=100
-     clear ww1
-     clear ww2
-  end
-end
+%%
+% testing_acc(l) = rate(newtt, T(:,testInd));
+% 
+%   if l~=100
+%      clear ww1
+%      clear ww2
+%   end
+% end
 
 % training_res = mean(training_acc);
 % testing_res = mean(testing_acc);
