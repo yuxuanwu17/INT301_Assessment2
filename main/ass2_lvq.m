@@ -3,31 +3,20 @@ clear;
 close all;
 clc;
 
-%% Reformat the figure format (uncomment it if you run it first time)
-% figure_preprocessing
+%% Uncomment it if you wish to rerun it again
+% data_partition 
 
-%% Read the new processed file and output the data and target
-imgDataPath_processed = '/Users/yuxuan/Desktop/INT301_Assessment2/ass2_processed_data/';
-[X, y] = getimdata2(imgDataPath_processed);
-
-%% transpose the X and y for easy manipulation
-X = transpose(X);
-y = transpose(y);
-
-%% Seperate the data format in 8 : 2
-[train_idx, test_idx] = crossvalind('HoldOut', y, 0.2);
-X_train = X(train_idx,:);
-X_test = X(test_idx,:);
-y_train = ind2vec(y(train_idx,:)')';
-y_test = ind2vec(y(test_idx,:)')';
+%% load the saved & splitted dataset
+load train_test_data.mat 
 
 %% LVQ network
-net = lvqnet(10);
+net = lvqnet(24); 
 net.trainParam.epochs = 50;
 [net,tr,Y] = train(net,X_train',y_train');
 
 %%
 y_predict = sim(net,X_test');
+
 %% test the performance
 training_acc = rate(getcls(Y), y_train')
 testing_acc = rate(getcls(y_predict), y_test')
@@ -36,6 +25,12 @@ testing_acc = rate(getcls(y_predict), y_test')
 y_predict_vec = vec2ind(y_predict);
 y_test_vec = vec2ind(y_test');
 
-%% Confusion mareix 
-C = confusionmat(y_predict_vec,y_test_vec);
-confusionchart(C)
+%% Confusion matrix of the network lvqnet(24)
+C_lvq = confusionmat(y_predict_vec,y_test_vec);
+confusionchart(C_lvq)
+
+save C_lvq.mat
+
+%% Confusion matrix of the lvqnet(360) (training time is long)
+% load('lvq_360.mat')
+% confusionchart(C_lvq)

@@ -62,5 +62,5 @@ YTrue = imdsTest.Labels;
 accuracy = sum(YPred == YTrue)/numel(YTrue)
 
 %% Confusion matrix 
-C = confusionmat(YPred,YTrue);
-confusionchart(C)
+C_CNN = confusionmat(YPred,YTrue);
+confusionchart(C_CNN)
