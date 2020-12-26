@@ -12,6 +12,10 @@ This task includes five algorithms to classify the characters segmented from the
 ---
 ## File running order
 1. run the figure_preprocessing.m and create a new file folder ass2_processede_data
+2. run data_partition.m split the dataset in 8:2 version and returned the X_train, X_test, y_train, y_test and save as train_test_data.mat
+3. run ass2_CNN.m (this script did not use the processed data, but read the figure directly from the original file)
+4. run ass2_mlp.m 
+5. run ass2_lvq.m
 
 
 ---
@@ -44,3 +48,24 @@ This is the script to conduct the CNN.
 	- use splitEachLabel to split the training and testing datasets
 	- do not use the train_test_data as the input since CNN has standard samples in Matlab documents
 	- return and save the confusion matrix as C_CNN.mat
+
+### ass2_mlp.m
+
+This is the script to conduct the MLP
+
+	- load the dataset obtained previously train_test_data.mat
+	- lr_rate = 0.2;
+	- momentum = 0.4;
+	- epochs = 1000;
+	- 3 layers with 50, 100, 100 
+	- Hyperbolic tangent sigmoid transfer function (tansig)
+	- gradient descent to update the weights
+	- return and save the confusion matrix as C_mlp.mat
+
+### ass2_lvq.m
+
+	- load the dataset obtained previously train_test_data.mat
+	- set the cluster into 24 due to computational convenience
+	- lvqnet(360) could achieve higher performance, but the training time is too long
+	- save the lvqnet(360) as lvq_360.mat, uncomment the line if you wish to see the performance
+	- return and save the confusion matrix C_lvq.mat
