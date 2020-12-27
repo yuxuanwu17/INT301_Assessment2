@@ -4,6 +4,7 @@ close all;
 clc;
 load train_test_data.mat 
 rng(1);
+
 %% Define the SOM network
 
 dimensions = [18,20]; % creat a 18X20 neuron matrix %% sqrt(sqrt(1152)*5)=13
@@ -16,93 +17,31 @@ distanceFcn = 'dist';
 net = selforgmap(dimensions,coverSteps,initNeighbor,topologyFcn,distanceFcn);
 [net,tr] = train(net,X_train');
 
+% save som_net_data.mat
 
-%% extract the centers 
-centers = net.IW{1,1}';
-size_center = size(centers);
-n_cluster = size_center(2);
+%% RBF train the som network
+% load som_net_data.mat
 
-%%
-for i = 1:n_cluster
-    dis = sqrt(sum((centers-centers(:,i)).^2)); % calculate variance for each center
-    cMax = max(dis);  % select the Cmax，the longest distance between two centers
-    var_square(i) = cMax;
-end 
+[ W, sigma, C ] = RBF_training_som( X_train, y_train, net );
 
-%% calculate the k weight matrix
+%% Return the predicted results of X_train
 
-X_train = X_train';
-X_train_size = size(X_train);
-X_train_num = X_train_size(2); % return the number of X_train (1920)
+y_train_pred = RBF_predict(X_train, W, sigma, C);
 
-% centers = transpose(centers);
-for i=1:1920  
-    for j=1:n_cluster 
-        dis1 = sqrt(sum((X_train(:,i)-centers(:,j)).^2));
-        K(i,j)=exp(-dis1^2/(2*var_square(j)^2));  
-    end 
-end 
+%% Return the predicted results of X_test
 
-% for i=1:X_train_num  
-%     for j=1:n_cluster 
-%         dis1 = sqrt(sum((X_train(:,i)-centers(:,j)).^2));
-%         n = dis1^2/(2*var_square(j)^2);
-%         K(i,j)=radbas(-n);  
-%     end 
-% end 
-%% obtain the weights
-y_train = y(train_idx,:);
-y_test = y(test_idx,:);
+y_test_pred = RBF_predict(X_test, W, sigma, C);
 
-weights=pinv(K'*K)*K'*y_train;
+%% Calculate the training and testing accuracy
 
-%% Return the training results
-for i=1:X_train_num % calculate the simulated training output
-    ww1=0; 
-    for j=1:n_cluster 
-        dist = sqrt(sum((X_train(:,i)-centers(:,j)).^2));
-        curr2=weights(j)*exp(-dist^2/(2*var_square(j)^2)); 
-        ww1=ww1 + curr2; 
-    end 
-    y_train_return(i) = ww1; 
-end 
-
-% obtain the training target
-newtr = int64(y_train_return);
-
-%% Calculate the testing results
-
-X_test = X_test';
-X_test_size = size(X_test);
-X_test_num = X_test_size(2);
-
-for i=1:X_test_num % calculate simulated testing output
-    ww2=0; 
-    for j=1:n_cluster 
-        curr11=sqrt(sum((X_test(:,i)-centers(:,j)).^2));
-        curr22=weights(j)*exp(-curr11^2/(2*var_square(j)^2)); 
-        ww2=ww2 + curr22; 
-    end 
-    y_test_return(i) = ww2; 
-end 
-newtt = int64(y_test_return);
+training_acc = rate(getcls(y_train_pred'), y_train')
+testing_acc = rate(getcls(y_test_pred'), y_test')
 
 %%
-n=1;
-for i = newtt
-    if i <=0 
-        y_pred(:,n) = 25;
-    elseif i>24
-        y_pred(:,n) = 25;
-    else
-        y_pred(:,n) = i;
-    end 
-    n = n+1;
-end 
-%%
-training_acc = rate(newtr,y_train')
-testing_acc = rate(newtt, y_test')
-
-%% plot confusio matrix
+y_pred = vec2ind(getcls(y_test_pred'));
+y_test = vec2ind(y_test');
 C = confusionmat(int64(y_pred'),int64(y_test));
 confusionchart(C)
+
+save C_rbf_som.mat
+
