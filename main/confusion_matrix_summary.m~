@@ -1,0 +1,6 @@
+%% MLP
+figure('Name','MLP','NumberTitle','off');
+load C_mlp.mat
+confusionchart(C_mlp)
+
+%% CNN

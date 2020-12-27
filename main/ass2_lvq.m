@@ -32,5 +32,6 @@ confusionchart(C_lvq)
 % save C_lvq.mat
 
 %% Confusion matrix of the lvqnet(360) (training time is long but with high performance)
-% load('lvq_360.mat')
-% confusionchart(C_lvq)
+load('lvq_360.mat')
+confusionchart(C_lvq)
+% save C_lvq.mat
