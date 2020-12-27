@@ -3,7 +3,7 @@ clear;
 close all;
 clc;
 load train_test_data.mat 
-rng(1);
+
 %% Use parallel computing
 stream = RandStream('mlfg6331_64');  % Random number stream
 options = statset('UseParallel',1,'UseSubstreams',1,...
@@ -42,7 +42,7 @@ end
 y_train = y(train_idx,:);
 y_test = y(test_idx,:);
 
-weights=inv(K'*K)*K'*y_train;
+weights=pinv(K'*K)*K'*y_train;
 
 %% Return the training results
 for i=1:X_train_num % calculate the simulated training output

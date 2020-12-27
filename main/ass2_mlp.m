@@ -2,7 +2,7 @@
 clear;
 close all;
 clc;
-
+rng(1);
 %% Uncomment it if you wish to rerun it again
 % data_partition 
 

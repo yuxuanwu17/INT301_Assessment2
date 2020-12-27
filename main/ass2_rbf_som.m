@@ -3,6 +3,7 @@ clear;
 close all;
 clc;
 load train_test_data.mat 
+rng(1);
 %% Define the SOM network
 
 dimensions = [18,20]; % creat a 18X20 neuron matrix %% sqrt(sqrt(1152)*5)=13
