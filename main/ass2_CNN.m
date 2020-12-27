@@ -64,3 +64,4 @@ accuracy = sum(YPred == YTrue)/numel(YTrue)
 %% Confusion matrix 
 C_CNN = confusionmat(YPred,YTrue);
 confusionchart(C_CNN)
+% save C_CNN.mat

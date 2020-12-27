@@ -29,8 +29,8 @@ y_test_vec = vec2ind(y_test');
 C_lvq = confusionmat(y_predict_vec,y_test_vec);
 confusionchart(C_lvq)
 
-save C_lvq.mat
+% save C_lvq.mat
 
-%% Confusion matrix of the lvqnet(360) (training time is long)
+%% Confusion matrix of the lvqnet(360) (training time is long but with high performance)
 % load('lvq_360.mat')
 % confusionchart(C_lvq)

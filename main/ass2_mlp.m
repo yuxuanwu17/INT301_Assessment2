@@ -41,7 +41,7 @@ y_test_vec = vec2ind(y_test');
 C_mlp = confusionmat(y_predict_vec,y_test_vec);
 confusionchart(C_mlp)
 
-save C_mlp.mat
+% save C_mlp.mat
 
 
 
