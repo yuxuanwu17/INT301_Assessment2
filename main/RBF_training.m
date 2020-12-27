@@ -17,6 +17,7 @@ function [ W, sigma, C ] = RBF_training( data, label, n_center_vec )
     
     % Using knnsearch to find K nearest neighbor points for each center vector
     % then calucate sigma
+    
     sigma = zeros(n_center_vec, 1);
     for i=1:n_center_vec
         [n] = knnsearch(data, C(i,:), 'k', K(i));
@@ -24,13 +25,14 @@ function [ W, sigma, C ] = RBF_training( data, label, n_center_vec )
         L2 = sum(L2(:));
         sigma(i) = sqrt(1/K(i)*L2);
     end
+    
     % Calutate weights
     % kernel matrix
     k_mat = zeros(n_data, n_center_vec);
     
     for i=1:n_center_vec
         r = bsxfun(@minus, data, C(i,:)).^2;
-        r = sum(r,2);
+        r = sqrt(sum(r,2));
         k_mat(:,i) = exp((-r.^2)/(2*sigma(i)^2));
     end
     

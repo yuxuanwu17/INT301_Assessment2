@@ -11,7 +11,7 @@ function [ y ] = RBF_predict( data, W, sigma, C )
     k_mat = zeros(n_data, n_center_vec);
     for i=1:n_center_vec
         r = bsxfun(@minus, data, C(i,:)).^2;
-        r = sum(r,2);
+        r = sqrt(sum(r,2));
         k_mat(:,i) = exp((-r.^2)/(2*sigma(i)^2));
     end
     
