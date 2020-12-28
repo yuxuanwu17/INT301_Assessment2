@@ -34,7 +34,7 @@ This is the script to extract the ass2data and rewrite to a new file folder ass2
 
 	- normalize the data into range 0-1
 	- assign the numerical labels to each character
-	- combine all the processed plot into a dataset $$2400 \times 1152$$
+	- combine all the processed plot into a dataset 2400 $ \times $ 1152
 	- 2400 stands for the number of samples; 1152 stands for the features in one figure
 
 ### data_partition.m
@@ -91,7 +91,7 @@ This is the script to conduct the MLP
 ### ass2_rbf_som.m
 	
 	- load the dataset obtained previously train_test_data.mat
-	- define the SOM network, the dimension is set to 18 $$ \times $$ 20 for convenience, keep it uniform to the previous number of clusters: 360
+	- define the SOM network, the dimension is set to 18 $ \times $ 20 for convenience, keep it uniform to the previous number of clusters: 360
 	- coverSteps = 10
 	- initNeighbor = 80 
 	- topologyFcn = 'hextop' 
@@ -124,7 +124,7 @@ This is the script to conduct the MLP
 ### RBF_training_kmeans.m
 
 	- Input: data, labels, number of clusters to be determined by kmeans
-	- sigma ($$ \sigma $$) is determined by the longest Euclidean distance between two clusters
+	- sigma ($ \sigma $) is determined by the longest Euclidean distance between two clusters
 	- k weight matrix is calculated by the radbas(distance of samples between clusters' centers/2*sigma^2)
 	- W weights is calculated by the pesudo inverse of (k'*k)*k'*labels
 
@@ -134,7 +134,7 @@ This is the script to conduct the MLP
 	- Input: data, labels and net
 	- net is pre-trained by som networks
 	- the cluster center is returned by the first layer of som network, which is denoted by net.IW{1,1}
-	- sigma ($$ \sigma $$) is determined by the longest Euclidean distance between two clusters
+	- sigma ($ \sigma $) is determined by the longest Euclidean distance between two clusters
 	- k weight matrix is calculated by the radbas(distance of samples between clusters' centers/2*sigma^2)
 	- W weights is calculated by the pesudo inverse of (k'*k)*k'*labels
 
