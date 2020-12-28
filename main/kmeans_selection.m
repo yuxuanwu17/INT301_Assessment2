@@ -19,3 +19,4 @@ end
 %%
 idx = [1:360];
 plot(idx', target')
+save kmeans_plot.mat
