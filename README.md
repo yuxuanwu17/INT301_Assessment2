@@ -10,12 +10,15 @@ This task includes five algorithms to classify the characters segmented from the
 - RBF2 with SOM (self-organizing map)
 
 ---
-## File running order
+## Files running order
 1. run the figure_preprocessing.m and create a new file folder ass2_processede_data
 2. run data_partition.m split the dataset in 8:2 version and returned the X_train, X_test, y_train, y_test and save as train_test_data.mat
 3. run ass2_CNN.m (this script did not use the processed data, but read the figure directly from the original file)
 4. run ass2_mlp.m 
 5. run ass2_lvq.m
+6. run ass2_rbf_kmean.m
+7. run ass2_rbf_som.m
+8. run ass2_confusion_matrix_summary.m
 
 
 ---
@@ -88,7 +91,7 @@ This is the script to conduct the MLP
 ### ass2_rbf_som.m
 	
 	- load the dataset obtained previously train_test_data.mat
-	- define the SOM network, the dimension is set to 18 $$\times$$ 20 for convenience, keep it uniform to the previous number of clusters: 360
+	- define the SOM network, the dimension is set to 18 $$ \times $$ 20 for convenience, keep it uniform to the previous number of clusters: 360
 	- coverSteps = 10
 	- initNeighbor = 80 
 	- topologyFcn = 'hextop' 
@@ -109,6 +112,7 @@ This is the script to conduct the MLP
 ## The function part (assembled function for reproduction)
 
 ### getimdata.m
+
 	- Input: the file path, in this case the processed file with renamed figure and same format jpeg (ass2_processed_data) 
 	- Output: Transormed the numerical data into the one-hot encoding vector format
 
@@ -120,20 +124,22 @@ This is the script to conduct the MLP
 ### RBF_training_kmeans.m
 
 	- Input: data, labels, number of clusters to be determined by kmeans
-	- sigma ($$\sigma$$) is determined by the longest Euclidean distance between two clusters
+	- sigma ($$ \sigma $$) is determined by the longest Euclidean distance between two clusters
 	- k weight matrix is calculated by the radbas(distance of samples between clusters' centers/2*sigma^2)
 	- W weights is calculated by the pesudo inverse of (k'*k)*k'*labels
 
 
 ### RBF_training_som.m
+
 	- Input: data, labels and net
 	- net is pre-trained by som networks
 	- the cluster center is returned by the first layer of som network, which is denoted by net.IW{1,1}
-	- sigma ($$\sigma$$) is determined by the longest Euclidean distance between two clusters
+	- sigma ($$ \sigma $$) is determined by the longest Euclidean distance between two clusters
 	- k weight matrix is calculated by the radbas(distance of samples between clusters' centers/2*sigma^2)
 	- W weights is calculated by the pesudo inverse of (k'*k)*k'*labels
 
 ### RBF_predict.m
+
 	- Input: data, W, sigma, C trained previously from either RBF_training_kmeans or RBF_training_som
 	- Output: vectors of the final prediction
 	- data could be either training data or testing data
