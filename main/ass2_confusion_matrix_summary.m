@@ -14,13 +14,13 @@ training_acc
 testing_acc
 
 %% CNN
+clear;
 figure('Name','CNN','NumberTitle','off');
 load C_CNN.mat
 confusionchart(C_CNN)
 fprintf('The CNN training and testing accuracy are: ');
 
-training_acc
-testing_acc
+accuracy
 
 %% LVQ
 figure('Name','LVQ','NumberTitle','off');
