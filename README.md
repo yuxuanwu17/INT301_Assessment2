@@ -32,10 +32,8 @@ This task includes five algorithms to classify the characters segmented from the
 
 This is the script to extract the ass2data and rewrite to a new file folder ass2_processed_data. 
 
-	- normalize the data into range 0-1
-	- assign the numerical labels to each character
-	- combine all the processed plot into a dataset 2400 $ \times $ 1152
-	- 2400 stands for the number of samples; 1152 stands for the features in one figure
+	- read both jpeg and jpg files in all folders ass2_data
+	- rewrite into another folders ass2_processed_data with uniform style (jpeg) and uniform naming styles (label+number) e.g. (A1,B10,C99)
 
 ### data_partition.m
 
@@ -52,6 +50,25 @@ This is the script to conduct the CNN.
 	- use imageDataset to store and train the model
 	- use splitEachLabel to split the training and testing datasets
 	- do not use the train_test_data as the input since CNN has standard samples in Matlab documents
+	- imageInputLayer(48,24,1)
+	- Layer 1:
+		- kernel size: 3; filters number: 8; padding: same
+		- batchNormalizationLayer
+		- Relu layer
+		- Maxpooling with a pooling size equals [2 2] and Stride equals [2 2]
+	- Layer 2:
+		- kernel size: 3; filters number: 16; padding: same	
+		- batchNormalizationLayer
+		- Relu layer
+		- Maxpooling with a pooling size equals [2 2] and Stride equals [2 2]
+	- Layer 3:
+		- kernel size: 3; filters number: 32; padding: same	
+		- batchNormalizationLayer
+		- Relu layer
+		- Maxpooling with a pooling size equals [2 2] and Stride equals [2 2]
+	- Layer 4:
+		- fully connected layer with neurons equals 24
+		- softmaxLayer
 	- calculate the training and testing accuracy
 	- return and save the confusion matrix as C_CNN.mat
 
@@ -114,12 +131,17 @@ This is the script to conduct the MLP
 ### getimdata.m
 
 	- Input: the file path, in this case the processed file with renamed figure and same format jpeg (ass2_processed_data) 
-	- Output: Transormed the numerical data into the one-hot encoding vector format
+	- Output: Transormed the numerical data into the one-hot encoding vector format (one-hot format)
 
 ### getimdata2.m
 
 	- Input: the file path, in this case the processed file with renamed figure and same format jpeg (ass2_processed_data) 
-	- Output: The normalized figure data (0-1), with data and corresponding labels. Labels are in numerical format (1,2,3...24)
+		- normalize the data into range 0-1
+		- assign the numerical labels to each character
+		- combine all the processed plot into a dataset 2400 $ \times $ 1152
+		- 2400 stands for the number of samples; 1152 stands for the features in one figure
+	- Output: The normalized figure data (0-1), with data and corresponding labels. Labels are in numerical format (1,2,3...24) (without one-hot)
+	- This function method is selected in the whole project
 
 ### RBF_training_kmeans.m
 
