@@ -13,7 +13,7 @@ load train_test_data.mat
 net = lvqnet(24); 
 net.trainParam.epochs = 50;
 [net,tr,Y] = train(net,X_train',y_train');
-
+view(net)
 %%
 y_predict = sim(net,X_test');
 

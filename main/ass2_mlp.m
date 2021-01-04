@@ -29,6 +29,7 @@ y_predict = sim(net_mlp,X_test');
 % perf = perform(net, y_test', y_predict)
 % fprintf('value of mse in neuron %d, learning rate %2.1f, momentum is %3.1f,is %6.4f\n ',neurons,lr_rate,mc_rate,perf);
 
+view(net_mlp)
 %% test the performance
 training_acc = rate(getcls(Y), y_train')
 testing_acc = rate(getcls(y_predict), y_test')

@@ -52,6 +52,7 @@ options = trainingOptions('sgdm','MaxEpochs',4,'ValidationData',imdsTest,'Valida
 %% Train the network
 
 net = trainNetwork(imdsTrain, layers, options);
+
 %% Make the prediction on test dataset
 
 YPred = classify(net,imdsTest);
