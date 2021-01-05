@@ -8,7 +8,8 @@ function [ W, sigma, C ] = RBF_training_kmeans( data, label, n_center_vec )
 
     for i = 1:n_center_vec
         dis = sqrt(sum((C-C(i,:)).^2)); % calculate variance for each center
-        cMax = max(dis);  % select the Cmax，the longest distance between two centers
+%         cMax = max(dis);  % select the Cmax，the longest distance between two centers
+        cMax = mean(dis);  % select the Cmax，the longest distance between two centers
         sigma(i,:) = cMax;
     end 
 

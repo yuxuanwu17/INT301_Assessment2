@@ -146,7 +146,7 @@ This is the script to conduct the MLP
 ### RBF_training_kmeans.m
 
 	- Input: data, labels, number of clusters to be determined by kmeans
-	- sigma ($ \sigma $) is determined by the longest Euclidean distance between two clusters
+	- sigma ($ \sigma $) is determined by the mean Euclidean distance between two clusters
 	- k weight matrix is calculated by the radbas(distance of samples between clusters' centers/2*sigma^2)
 	- W weights is calculated by the pesudo inverse of (k'*k)*k'*labels
 
@@ -156,7 +156,7 @@ This is the script to conduct the MLP
 	- Input: data, labels and net
 	- net is pre-trained by som networks
 	- the cluster center is returned by the first layer of som network, which is denoted by net.IW{1,1}
-	- sigma ($ \sigma $) is determined by the longest Euclidean distance between two clusters
+	- sigma ($ \sigma $) is determined by the mean Euclidean distance between two clusters
 	- k weight matrix is calculated by the radbas(distance of samples between clusters' centers/2*sigma^2)
 	- W weights is calculated by the pesudo inverse of (k'*k)*k'*labels
 

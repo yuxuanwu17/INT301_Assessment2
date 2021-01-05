@@ -10,7 +10,7 @@ clc;
 load train_test_data.mat 
 
 %% LVQ network
-net = lvqnet(24); 
+net = lvqnet(360); 
 net.trainParam.epochs = 50;
 [net,tr,Y] = train(net,X_train',y_train');
 view(net)
