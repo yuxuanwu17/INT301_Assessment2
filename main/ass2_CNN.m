@@ -48,7 +48,7 @@ classificationLayer];
 
 %% Define the hyperparameters of layers
 
-options = trainingOptions('sgdm','MaxEpochs',4,'ValidationData',imdsTest,'ValidationFrequency',30,'Verbose',false,'Plots','training-progress');
+options = trainingOptions('sgdm','MaxEpochs',30,'ValidationData',imdsTest,'ValidationFrequency',30,'Verbose',false,'Plots','training-progress');
 %% Train the network
 
 net = trainNetwork(imdsTrain, layers, options);

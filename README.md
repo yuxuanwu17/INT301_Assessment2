@@ -109,10 +109,10 @@ This is the script to conduct the MLP
 	
 	- load the dataset obtained previously train_test_data.mat
 	- define the SOM network, the dimension is set to 18 $ \times $ 20 for convenience, keep it uniform to the previous number of clusters: 360
-	- coverSteps = 10
-	- initNeighbor = 80 
-	- topologyFcn = 'hextop' 
-	- distanceFcn = 'dist'
+	- coverSteps = 10 %% Number of training steps for initial covering of the input space (default = 100)
+	- initNeighbor = 80 %% Initial neighborhood size (default = 3)
+	- topologyFcn = 'hextop' %% Layer topology function (default = 'hextop')
+	- distanceFcn = 'dist' %%  Neuron distance function (default = 'linkdist')
 	- once finished the training of SOM network, use assembled function RBF_training_som.m to calculate the weights W, sigma (the variance of the RBF kernel) and center of SOM clusters, which is the IW{1,1}.
 	- use the previous returned parameter to return the training prediction by assembled function: RBF_predict
 	- return and save the confusion matrix C_rbf_som.mat
