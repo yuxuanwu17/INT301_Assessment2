@@ -1,5 +1,7 @@
 Assessment2
 
+You could download the whole file with script and report in 1716309_Yuxuan_Wu.zip
+
 ## Project overview 
 
 This task includes five algorithms to classify the characters segmented from the license plates of automobiles using MATLAB

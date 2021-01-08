@@ -40,6 +40,8 @@ testing_acc = rate(getcls(y_test_pred'), y_test')
 %%
 y_pred = vec2ind(getcls(y_test_pred'));
 y_test = vec2ind(y_test');
+
+%%
 C_rbf_som = confusionmat(int64(y_pred'),int64(y_test));
 confusionchart(C_rbf_som)
 
