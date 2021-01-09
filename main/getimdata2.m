@@ -1,4 +1,4 @@
-function [ data,target ] = getimdata(path)
+function [ data,target ] = getimdata2(path)
 %GETIMDATA Summary of this function goes here
 %   Detailed explanation goes here
     files = dir([path '*.jpeg']);
